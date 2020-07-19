@@ -45,14 +45,17 @@ void setup_client()
     //step 2 connect to the server specified by port no and ip address
     connect(sockfd, (struct sockaddr *)(&server), addr_len);
     printf("Successfully connected to server..\n");
-    printf("Enter the data\n");
-    scanf("%d",&num);
-    send_recv_bytes = sendto(sockfd, &num, sizeof(num),
-                       0, (struct sockaddr *)(&server), addr_len);
-    printf("Client has send %d bytes\n",send_recv_bytes);
-    recvfrom(sockfd, (char *)num_1, sizeof(num_1),
-                       0, (struct sockaddr *)(&server), &addr_len);
-    printf("Data: %d is received from server %s:%d\n", num_1, server.sin_addr,server.sin_port);
+    while(1){
+        printf("Enter the data\n");
+        scanf("%d",&num);
+        send_recv_bytes = sendto(sockfd, &num, sizeof(int),
+                           0, (struct sockaddr *)(&server), addr_len);
+        printf("Client has send %d bytes\n",send_recv_bytes);
+        send_recv_bytes = recvfrom(sockfd, &num_1, sizeof(int),
+                           0, (struct sockaddr *)(&server), &addr_len);
+        printf("%d data recevied from server\n",send_recv_bytes);
+        printf("Data: %d is received from server\n", num_1);
+    }
           
 }
 int main(int argc, char **argv)

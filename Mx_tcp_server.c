@@ -80,7 +80,7 @@ get_max_fd(void){
 void setup_tcp_server()
 {
     //initialise variables.
-    int master_sock_fd;
+    int master_sock_fd = 0;
     int addr_len=0;
     int num, result;
     int send_recv_bytes=0;
@@ -154,10 +154,10 @@ void setup_tcp_server()
             printf("Server has received %d bytes data from client..\n",send_recv_bytes);
             printf("Data: %d\n",num);
             result = num + 10;
-            send_recv_bytes = sendto(client_conn_fd, (char *)result, sizeof(result), 0,
+            send_recv_bytes = sendto(client_conn_fd, &result, sizeof(result), 0,
                                    (struct sockaddr *)(&client), addr_len);
             if(send_recv_bytes)
-                printf("server has send data %d \n", result);
+                printf("server has send data\n");
             }
         }
     }

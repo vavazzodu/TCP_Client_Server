@@ -33,7 +33,7 @@ void setup_tcp_server()
     //step-1, initialise variables.
     int master_sock_fd;
     int addr_len=0;
-    int num;
+    int num,results;
     int send_recv_bytes=0;
     struct sockaddr_in server, client; //server and client data struct
     fd_set readfds;            //read file desc. where master socket fd and communication fds will stored
@@ -89,11 +89,11 @@ void setup_tcp_server()
                     break;
                 }
                 printf("Server has received %d data from client..\n",send_recv_bytes);
-                printf("Data: %d\n",num);
-                //send_recv_bytes = sendto(client_conn_fd, (char *)result, sizeof(result), 0,
-                  //                       (struct sockaddr *)(&client), addr_len);
-                //if(send_recv_bytes)
-                  //  printf("server has send data\n");
+                results = num +10;
+                send_recv_bytes = sendto(client_conn_fd, &results, sizeof(results), 0,
+                                         (struct sockaddr *)(&client), addr_len);
+                if(send_recv_bytes)
+                   printf("server has send data %d bytes\n",send_recv_bytes);
                 close(client_conn_fd);
                 break;
             }

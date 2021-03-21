@@ -78,11 +78,13 @@ void setup_tcp_server()
             printf("Connection is accepted from client : %s:%d\n",
                    inet_ntoa(client.sin_addr),ntohs(client.sin_port));
             while(1){
+                printf("Waiting for data//\n");
                 //server is waiting for client to send data, hence the process will be blocked here.
+                memset((int *)&num,0,sizeof(num));
                 send_recv_bytes = recvfrom(client_conn_fd, &num, sizeof(num), 0,
                                            (struct sockaddr *)(&client), &addr_len);
-                if(send_recv_bytes == 0){
-                    printf("No data received..\n");
+                if(num == 0){
+                    printf("Server has received 0, hence closing the connection..\n");
                     close(client_conn_fd);
                     printf("Server has closed connection with client :%s:%d..\n",
                              inet_ntoa(client.sin_addr),ntohs(client.sin_port));
@@ -92,10 +94,10 @@ void setup_tcp_server()
                 results = num +10;
                 send_recv_bytes = sendto(client_conn_fd, &results, sizeof(results), 0,
                                          (struct sockaddr *)(&client), addr_len);
-                if(send_recv_bytes)
+               /* if(send_recv_bytes)
                    printf("server has send data %d bytes\n",send_recv_bytes);
                 close(client_conn_fd);
-                break;
+                break;*/
             }
         }
     }

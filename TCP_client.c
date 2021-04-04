@@ -54,6 +54,11 @@ void setup_client()
         send_recv_bytes = recvfrom(sockfd, &num_1, sizeof(int),
                            0, (struct sockaddr *)(&server), &addr_len);
         printf("%d data recevied from server\n",send_recv_bytes);
+        if(send_recv_bytes == 0){
+            close(sockfd);
+            printf("Client is closing connection..\n");
+            break;
+        }
         printf("Data: %d is received from server\n", num_1);
     }
           
